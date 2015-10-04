@@ -35,7 +35,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "generate-images": "mkdir -p assets && node create-images.js"
+    "generate-images": "mkdir -p assets && node create-images.js",
+    "reset-used-colors": "echo '[]' > used-colors.json"
   },
   "keywords": [],
   "main": "index.js",
