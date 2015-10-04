@@ -76,7 +76,7 @@ function tweet() {
   tweetColor(pantoneColor)
 }
 
-// Tweet every 4 hours
+// Tweet every 60 minutes
 setInterval(function () {
   try {
     tweet()
@@ -84,7 +84,7 @@ setInterval(function () {
   catch (e) {
     console.log(e)
   }
-}, 1000 * 60 * 60 * 4)
+}, 1000 * 60 * 60)
 
 // Tweet once on initialization
 tweet()
