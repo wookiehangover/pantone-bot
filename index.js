@@ -4,9 +4,9 @@ var _ = require('underscore')
 _.mixin( require('underscore.deferred') )
 var Twit = require('twit')
 var T = new Twit(require('./config.js'))
-var wordfilter = require('wordfilter')
-var ent = require('ent')
 var fs = require('fs')
+var hex2rgb = require('./hex2rgb')
+var rgb2hsl = require('color-convert').rgb2hsl
 
 let colors = {
   'coated': require('pantoner/json/pantone-coated.json'),
@@ -19,23 +19,24 @@ let colors = {
 
 var usedColors = require('./used-colors.json')
 
-function generate() {
-  let dfd = new _.Deferred()
-
+function getColor() {
   let key = _.keys(colors)[_.random(_.size(colors) - 1)]
   let colorSet = colors[key]
-  let pantoneColor = colorSet[_.random(colorSet.length)]
+  let pantoneColor = colorSet[_.random(colorSet.length - 1)]
 
   if (usedColors.indexOf(pantoneColor.pantone) > -1) {
-    return generate()
+    return getColor()
   }
 
-  dfd.resolve(pantoneColor)
-  return dfd.promise()
+  return pantoneColor
 }
 
 function tweetColor(pantoneColor) {
   let name = pantoneColor.pantone
+  let hex = pantoneColor.hex
+  let rgb = hex2rgb(hex)
+  let hsl = rgb2hsl(rgb)
+
   var b64content = fs.readFileSync(`assets/pantone-${name}.png`, { encoding: 'base64' })
 
   // first we must post the media to Twitter
@@ -47,7 +48,12 @@ function tweetColor(pantoneColor) {
     // now we can reference the media and post a tweet (media will attach to the tweet)
     var mediaIdStr = data.media_id_string
     var params = {
-      status: `Pantone ${name} ${pantoneColor.hex}`,
+      status: [
+        `Pantone ${name}`,
+        `rgb(${rgb.join(',')})`,
+        `hsl(${hsl.join(',')})`,
+        `${pantoneColor.hex}`
+      ].join('\n'),
       media_ids: [mediaIdStr]
     }
 
@@ -67,10 +73,7 @@ function tweetColor(pantoneColor) {
 }
 
 function tweet() {
-  let key = _.keys(colors)[_.random(_.size(colors) - 1)]
-  let colorSet = colors[key]
-  let pantoneColor = colorSet[_.random(colorSet.length - 1)]
-
+  let pantoneColor = getColor()
   tweetColor(pantoneColor)
 }
 

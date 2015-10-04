@@ -5,19 +5,7 @@ var Buffer = require('buffer').Buffer
 var PNG = require('pngjs2').PNG
 var fs = require('fs')
 var async = require('async')
-
-function hexToRgb(hex) {
-  hex = hex.replace('#', '')
-  let r = hex.substr(0,2)
-  let g = hex.substr(2,2)
-  let b = hex.substr(4,2)
-
-  return [
-    parseInt(`0x${r}`),
-    parseInt(`0x${g}`),
-    parseInt(`0x${b}`)
-  ]
-}
+var hexToRgb = require('./hex2rgb')
 
 function imageFromColor(pantoneColor, done) {
   let color = hexToRgb(pantoneColor.hex)

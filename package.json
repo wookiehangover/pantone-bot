@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "async": "^1.4.2",
+    "color-convert": "^0.6.0",
     "ent": "2.2.0",
     "node-png": "^0.4.3",
     "pantoner": "^1.1.2",
