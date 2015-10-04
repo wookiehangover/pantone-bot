@@ -38,6 +38,14 @@ function tweetColor(pantoneColor) {
 
   var b64content = fs.readFileSync(`assets/pantone-${name}.png`, { encoding: 'base64' })
 
+  T.post('account/update_profile_banner', { banner: b64content }, function(err, data, resp) {
+    if (err) {
+      console.error('Error update profile banner: ', err)
+    } else {
+      console.log('Profile image banner')
+    }
+  })
+
   T.post('account/update_profile_image', { image: b64content }, function(err, data, resp) {
     if (err) {
       console.error('Error update profile image: ', err)
