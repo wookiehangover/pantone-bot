@@ -1,0 +1,41 @@
+{
+  "name": "pantone-bot",
+  "description": "The best project ever.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/wookiehangover/pantone-bot",
+  "author": {
+    "name": "Sam Breed",
+    "email": "samuel.breed@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wookiehangover/pantone-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wookiehangover/pantone-bot/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/wookiehangover/pantone-bot/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": "4.0.0"
+  },
+  "dependencies": {
+    "async": "^1.4.2",
+    "ent": "2.2.0",
+    "node-png": "^0.4.3",
+    "pantoner": "^1.1.2",
+    "pngjs2": "^1.2.0",
+    "rita": "~1.0.951",
+    "twit": "~1.1.19",
+    "underscore": "~1.5.1",
+    "underscore.deferred": "~0.4.0",
+    "wordfilter": "*"
+  },
+  "devDependencies": {
+  },
+  "keywords": []
+}
