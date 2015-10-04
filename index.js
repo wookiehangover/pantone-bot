@@ -38,13 +38,19 @@ function tweetColor(pantoneColor) {
 
   var b64content = fs.readFileSync(`assets/pantone-${name}.png`, { encoding: 'base64' })
 
-  // first we must post the media to Twitter
+  T.post('account/update_profile_image', { image: b64content }, function(err, data, resp) {
+    if (err) {
+      console.error('Error update profile image: ', err)
+    } else {
+      console.log('Profile image updated')
+    }
+  })
+
   T.post('media/upload', { media: b64content }, function (err, data, response) {
     if (err) {
       throw err
     }
 
-    // now we can reference the media and post a tweet (media will attach to the tweet)
     var mediaIdStr = data.media_id_string
     var params = {
       status: [
