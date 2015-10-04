@@ -37,5 +37,8 @@
   },
   "devDependencies": {
   },
+  "scripts": {
+    "images": "mkdir -p assets && node create-images.js"
+  },
   "keywords": []
 }
