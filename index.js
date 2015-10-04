@@ -51,7 +51,7 @@ function tweetColor(pantoneColor) {
       status: [
         `Pantone ${name}`,
         `rgb(${rgb.join(',')})`,
-        `hsl(${hsl.join(',')})`,
+        `hsl(${hsl[0]},${hsl[1]}%,${hsl[2]}%)`,
         `${pantoneColor.hex}`
       ].join('\n'),
       media_ids: [mediaIdStr]
