@@ -23,15 +23,10 @@
   "dependencies": {
     "async": "^1.4.2",
     "color-convert": "^0.6.0",
-    "ent": "2.2.0",
-    "node-png": "^0.4.3",
     "pantoner": "^1.1.2",
     "pngjs2": "^1.2.0",
-    "rita": "~1.0.951",
     "twit": "~1.1.19",
-    "underscore": "~1.5.1",
-    "underscore.deferred": "~0.4.0",
-    "wordfilter": "*"
+    "underscore": "~1.5.1"
   },
   "devDependencies": {},
   "scripts": {

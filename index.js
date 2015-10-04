@@ -1,7 +1,6 @@
 'use strict'
 
 var _ = require('underscore')
-_.mixin( require('underscore.deferred') )
 var Twit = require('twit')
 var T = new Twit(require('./config.js'))
 var fs = require('fs')
