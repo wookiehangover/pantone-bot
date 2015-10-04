@@ -26,7 +26,6 @@ function generate() {
   let colorSet = colors[key]
   let pantoneColor = colorSet[_.random(colorSet.length)]
 
-
   if (usedColors.indexOf(pantoneColor.pantone) > -1) {
     return generate()
   }
@@ -47,7 +46,10 @@ function tweetColor(pantoneColor) {
 
     // now we can reference the media and post a tweet (media will attach to the tweet)
     var mediaIdStr = data.media_id_string
-    var params = { status: `Pantone ${name}`, media_ids: [mediaIdStr] }
+    var params = {
+      status: `Pantone ${name} ${pantoneColor.hex}`,
+      media_ids: [mediaIdStr]
+    }
 
     T.post('statuses/update', params, function (err, data, response) {
       if (err) {
