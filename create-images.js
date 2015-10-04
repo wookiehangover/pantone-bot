@@ -13,8 +13,8 @@ function imageFromColor(pantoneColor, done) {
   let g = color[1]
   let b = color[2]
 
-  let width = 400
-  let height = 400
+  let width = 500
+  let height = 500
 
   let bitmap = new Buffer(width * height * 3)
 
