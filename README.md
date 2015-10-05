@@ -6,16 +6,16 @@ https://twitter.com/pantone_colors
 
 ### Usage
 
-* Start app
-  * `node index.js`
 * Create a directory of Pantone color png's
   * `npm run generate-images`
 * Reset the used colors cache
   * `npm run reset-used-colors`
+* Start app
+  * `node index.js`
 
 ### Config
 
-Before running, you'll need to create `config.js` with your Twitter API credentials.
+Before starting the app, you'll need to create `config.js` with your Twitter API credentials.
 
 ```javascript
 module.exports = {
@@ -25,6 +25,8 @@ module.exports = {
   access_token_secret:  'access-token-secret'
 };
 ```
+
+You'll also need to be sure to run `npmr run generate-images` and `npm run reset-used-colors` prior to starting the app.
 
 ## License
 Copyright (c) 2015 Sam Breed  
