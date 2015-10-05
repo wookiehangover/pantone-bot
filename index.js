@@ -1,11 +1,11 @@
 'use strict'
 
-var _ = require('underscore')
-var Twit = require('twit')
-var T = new Twit(require('./config.js'))
-var fs = require('fs')
-var hex2rgb = require('./hex2rgb')
-var rgb2hsl = require('color-convert').rgb2hsl
+let _ = require('underscore')
+let Twit = require('twit')
+let T = new Twit(require('./config.js'))
+let fs = require('fs')
+let hex2rgb = require('./hex2rgb')
+let rgb2hsl = require('color-convert').rgb2hsl
 
 let colors = {
   'coated': require('pantoner/json/pantone-coated.json'),
@@ -16,7 +16,7 @@ let colors = {
   'uncoated': require('pantoner/json/pantone-uncoated.json')
 }
 
-var usedColors = require('./used-colors.json')
+let usedColors = require('./used-colors.json')
 
 function getColor() {
   let key = _.keys(colors)[_.random(_.size(colors) - 1)]
@@ -30,15 +30,24 @@ function getColor() {
   return pantoneColor
 }
 
-function tweetColor(pantoneColor) {
+function getMedia(pantoneColor, done) {
+  let filename = `assets/pantone-${pantoneColor.pantone}.png`
+  fs.readFile(filename, { encoding: 'base64' }, (err, media) => {
+    if (err) {
+      console.log('error:', err)
+      return
+    }
+    done(media)
+  })
+}
+
+function tweetColor(pantoneColor, media) {
   let name = pantoneColor.pantone
   let hex = pantoneColor.hex
   let rgb = hex2rgb(hex)
   let hsl = rgb2hsl(rgb)
 
-  var b64content = fs.readFileSync(`assets/pantone-${name}.png`, { encoding: 'base64' })
-
-  T.post('account/update_profile_banner', { banner: b64content }, function(err, data, resp) {
+  T.post('account/update_profile_banner', { banner: media }, (err) => {
     if (err) {
       console.error('Error update profile banner: ', err)
     } else {
@@ -46,7 +55,7 @@ function tweetColor(pantoneColor) {
     }
   })
 
-  T.post('account/update_profile_image', { image: b64content }, function(err, data, resp) {
+  T.post('account/update_profile_image', { image: media }, (err) => {
     if (err) {
       console.error('Error update profile image: ', err)
     } else {
@@ -54,13 +63,13 @@ function tweetColor(pantoneColor) {
     }
   })
 
-  T.post('media/upload', { media: b64content }, function (err, data, response) {
+  T.post('media/upload', { media }, (err, data) => {
     if (err) {
       throw err
     }
 
-    var mediaIdStr = data.media_id_string
-    var params = {
+    let mediaIdStr = data.media_id_string
+    let params = {
       status: [
         `Pantone ${name}`,
         `rgb(${rgb.join(',')})`,
@@ -70,7 +79,7 @@ function tweetColor(pantoneColor) {
       media_ids: [mediaIdStr]
     }
 
-    T.post('statuses/update', params, function (err, data, response) {
+    T.post('statuses/update', params, (err, data) => {
       if (err) {
         console.log('error:', err)
         return
@@ -78,7 +87,7 @@ function tweetColor(pantoneColor) {
 
       usedColors.push(name)
 
-      fs.writeFile('used-colors.json', JSON.stringify(usedColors, null, 2), function(err) {
+      fs.writeFile('used-colors.json', JSON.stringify(usedColors, null, 2), (err) => {
         console.log(`Successfully tweeted: Pantone ${name}`)
       })
     })
@@ -87,7 +96,9 @@ function tweetColor(pantoneColor) {
 
 function tweet() {
   let pantoneColor = getColor()
-  tweetColor(pantoneColor)
+  getMedia(pantoneColor, (media) => {
+    tweetColor(pantoneColor, media)
+  })
 }
 
 // Tweet every 4 hours

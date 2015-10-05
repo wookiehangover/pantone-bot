@@ -1,11 +1,11 @@
 'use strict'
 
-var _ = require('underscore')
-var Buffer = require('buffer').Buffer
-var PNG = require('pngjs2').PNG
-var fs = require('fs')
-var async = require('async')
-var hexToRgb = require('./hex2rgb')
+let _ = require('underscore')
+let Buffer = require('buffer').Buffer
+let PNG = require('pngjs2').PNG
+let fs = require('fs')
+let async = require('async')
+let hexToRgb = require('./hex2rgb')
 
 function imageFromColor(pantoneColor, done) {
   let color = hexToRgb(pantoneColor.hex)
@@ -18,14 +18,14 @@ function imageFromColor(pantoneColor, done) {
 
   let bitmap = new Buffer(width * height * 3)
 
-  var ofs = 0
+  let ofs = 0
   for (var i = 0; i < bitmap.length; i+=3) {
     bitmap[ofs++] = r
     bitmap[ofs++] = g
     bitmap[ofs++] = b
   }
 
-  var png = new PNG({
+  let png = new PNG({
     width: width,
     height: height,
     inputHasAlpha: false
